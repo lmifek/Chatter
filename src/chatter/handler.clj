@@ -9,7 +9,7 @@
             [ring.util.anti-forgery :as anti-forgery]
             [environ.core :refer [env]]))
 
-(def chat-messages
+(defonce chat-messages
   (atom '()))
 
 (defn init []
@@ -30,13 +30,16 @@
    [:body
     [:h1 "Our Chat App"]
     [:p
+     {:class "btn btn-primary btn-lg active"}
      (form/form-to
       [:post "/"]
       "Name: " (form/text-field "name")
       "Message: " (form/text-field "msg")
-      (form/submit-button "Submit"))]
+      (form/submit-button "Submit")
+      )]
     [:p
-     [:table#messages.table.table-bordered.table-hover
+     [:table
+      {:class "table table-striped table-hover table-responsive"}
       (map (fn [m] [:tr [:td (:name m)] [:td (:message m)]]) messages)]]]))
 
 (defn update-messages!
